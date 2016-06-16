@@ -33,7 +33,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="HQMEditorDedicated">
-      <HintPath>..\..\..\..\GitHub\HQMEditorDedicated\HQMEditorDedicated\bin\Debug\HQMEditorDedicated.dll</HintPath>
+      <HintPath>.\HQMEditorDedicated.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

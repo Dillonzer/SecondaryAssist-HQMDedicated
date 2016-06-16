@@ -12,8 +12,11 @@ namespace HQMSecondaryAssist
 
         string theHeroOfThePlay;
         HQMTeam lastTouchedPuck = HQMTeam.NoTeam;
-
+        Player[] players = PlayerManager.Players;
+        string[] assisters = new string[3];
         float currentPuckX, currentPuckY, currentPuckZ;
+        int blueCount = 0;
+        int redCount = 0;
         bool puckTouched;
 
         public void checkForAssists()
@@ -26,30 +29,59 @@ namespace HQMSecondaryAssist
             if (teamTouchedPuck() == HQMTeam.NoTeam)
                puckTouched = false;
 
-            Player[] players = PlayerManager.Players;
-
             if (puckTouched)
+            {
                 lastTouchedPuck = teamTouchedPuck();
+            }
 
             if(lastTouchedPuck == HQMTeam.Red)
             {
+                blueCount = 0; //resets the other teams counter, since they have no more possesion
 
+                if (redCount == 4)
+                    redCount = 0;
+
+                assisters[redCount] = playerTouchedPuck();
+
+                redCount++;
+
+                if (redGoalScored())
+                {
+                    if (redCount == 4) //uses 4 then we know 3 red touched it last, which means there is a secondary assist.
+                    {
+                        theHeroOfThePlay = assisters[0];
+                        //TODO: Add a function to add an assist to the player who got 3rd assist
+                    }
+                }
             }
             else if (lastTouchedPuck == HQMTeam.Blue)
             {
+                redCount = 0; //resets the other teams counter, since they have no more possesion
 
+                if (blueCount == 4)
+                    blueCount = 0;
+
+                assisters[blueCount] = playerTouchedPuck();
+
+                blueCount++;
+
+                if (blueGoalScored())
+                {
+                    if (blueCount == 4) //uses 4 then we know 3 red touched it last, which means there is a secondary assist.
+                    {
+                        theHeroOfThePlay = assisters[0];
+                        //TODO: Add a function to add an assist to the player who got 3rd assist
+                    }
+                }
             }
         }
 
-        public string blueTeamHero()
-        {
-            //TODO: Cycle through the players who last touched the puck
-        }
-        public string redTeamHero()
-        {
-            //TODO: Cycle through the players who last touched the puck
-        }
-
+        /*IDEA
+         * Track all players on blue team and red team
+         * whenever one of them touch the puck, add them to an array
+         * if the team switches, reset array
+         */
+        
         public bool blueGoalScored()
         {
             currentPuckY = Puck.Position.Y;
@@ -77,9 +109,23 @@ namespace HQMSecondaryAssist
 
             return(false);
         }
+
+        string playerTouchedPuck()
+        {
+            foreach (Player p in PlayerManager.Players)
+            {
+                if ((p.StickPosition - Puck.Position).Magnitude < 0.25f)
+                {
+                    return p.Name;
+                }
+            }
+
+            return "";
+        }
     
         /*
-         * Taken from xparabolax icing mod
+         * purpose: returns which colour team touched the puck last
+         * taken from xParabolax's Icing Mod on github. (link in readme)
          */
         HQMTeam teamTouchedPuck()
         {
@@ -87,12 +133,17 @@ namespace HQMSecondaryAssist
             {
                 if ((p.StickPosition - Puck.Position).Magnitude < 0.25f)
                 {
+                    
                     return p.Team;
                 }
             }
             return HQMTeam.NoTeam;
         }
 
+        /*
+         * purpose: returns if the puck is on net
+         * taken from xParabolax's Icing Mod on github. (link in readme)
+         */
          bool puckOnNet(float x, float y)
         {
             return !(x < LEFT_GOALPOST || x > RIGHT_GOALPOST || y > TOP_GOALPOST);
