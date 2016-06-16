@@ -1,0 +1,2 @@
+c:\users\dillo\documents\visual studio 2012\Projects\HQMSecondaryAssist\HQMSecondaryAssist\bin\Debug\HQMSecondaryAssist.exe.config
+c:\users\dillo\documents\visual studio 2012\Projects\HQMSecondaryAssist\HQMSecondaryAssist\obj\Debug\HQMSecondaryAssist.csprojResolveAssemblyReference.cache
