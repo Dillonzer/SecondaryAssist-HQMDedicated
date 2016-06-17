@@ -50,6 +50,7 @@ namespace HQMSecondaryAssist
                     if (redCount == 4) //uses 4 then we know 3 red touched it last, which means there is a secondary assist.
                     {
                         theHeroOfThePlay = assisters[0];
+                        Chat.SendMessage("THIRD ASSIST: " + theHeroOfThePlay);
                         //TODO: Add a function to add an assist to the player who got 3rd assist
                     }
                 }
@@ -70,6 +71,7 @@ namespace HQMSecondaryAssist
                     if (blueCount == 4) //uses 4 then we know 3 red touched it last, which means there is a secondary assist.
                     {
                         theHeroOfThePlay = assisters[0];
+                        Chat.SendMessage("THIRD ASSIST: " + theHeroOfThePlay);
                         //TODO: Add a function to add an assist to the player who got 3rd assist
                     }
                 }

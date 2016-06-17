@@ -1,3 +1,9 @@
 c:\users\dillo\documents\visual studio 2012\Projects\HQMSecondaryAssist\HQMSecondaryAssist\bin\Debug\HQMSecondaryAssist.exe.config
 c:\users\dillo\documents\visual studio 2012\Projects\HQMSecondaryAssist\HQMSecondaryAssist\obj\Debug\HQMSecondaryAssist.csprojResolveAssemblyReference.cache
 C:\Users\Dillon\Documents\GitHub\SecondaryAssist-HQMDedicated\HQMSecondaryAssist\bin\Debug\HQMSecondaryAssist.exe.config
+C:\Users\Dillon\Documents\GitHub\SecondaryAssist-HQMDedicated\HQMSecondaryAssist\bin\Debug\HQMSecondaryAssist.exe
+C:\Users\Dillon\Documents\GitHub\SecondaryAssist-HQMDedicated\HQMSecondaryAssist\bin\Debug\HQMSecondaryAssist.pdb
+C:\Users\Dillon\Documents\GitHub\SecondaryAssist-HQMDedicated\HQMSecondaryAssist\bin\Debug\HQMEditorDedicated.dll
+C:\Users\Dillon\Documents\GitHub\SecondaryAssist-HQMDedicated\HQMSecondaryAssist\obj\Debug\HQMSecondaryAssist.csprojResolveAssemblyReference.cache
+C:\Users\Dillon\Documents\GitHub\SecondaryAssist-HQMDedicated\HQMSecondaryAssist\obj\Debug\HQMSecondaryAssist.exe
+C:\Users\Dillon\Documents\GitHub\SecondaryAssist-HQMDedicated\HQMSecondaryAssist\obj\Debug\HQMSecondaryAssist.pdb

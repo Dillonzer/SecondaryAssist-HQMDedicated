@@ -7,14 +7,15 @@ namespace HQMSecondaryAssist
         static void Main(string[] args)
         {
             MemoryEditor.Init();
-            
+            SecondaryAssist sa = new SecondaryAssist();
+
             while (true) 
             {
-                //Stole this from xParabolaX's icing MOD
+                //from xParabolaX's icing MOD
                 if (GameInfo.Period > 0 && GameInfo.IntermissionTime == 0 &&
                     (GameInfo.AfterGoalFaceoffTime == 0 || GameInfo.AfterGoalFaceoffTime >= 649))
                 {
-                    
+                    sa.checkForAssists();
                 }
 
             }
