@@ -13,17 +13,18 @@ namespace HQMSecondaryAssist
         string theHeroOfThePlay;
         HQMTeam lastTouchedPuck = HQMTeam.NoTeam;
         Player[] players = PlayerManager.Players;
-        string[] assisters = new string[3];
+        string[] assisters = new string[4];
+        string tempAssis = "";
+        string swap = "";
         float currentPuckX, currentPuckY, currentPuckZ;
         int blueCount = 0;
         int redCount = 0;
         bool puckTouched;
+        int blueScore = GameInfo.BlueScore;
+        int redScore = GameInfo.RedScore;
 
         public void checkForAssists()
         {
-            currentPuckZ = Puck.Position.Z;
-            currentPuckY = Puck.Position.Y;
-            currentPuckX = Puck.Position.X;
             puckTouched = true;
 
             if (teamTouchedPuck() == HQMTeam.NoTeam)
@@ -41,17 +42,35 @@ namespace HQMSecondaryAssist
                 if (redCount == 4)
                     redCount = 0;
 
-                assisters[redCount] = playerTouchedPuck();
+                tempAssis = playerTouchedPuck();
 
-                redCount++;
 
-                if (redGoalScored())
+                if (tempAssis != "")
                 {
-                    if (redCount == 4) //uses 4 then we know 3 red touched it last, which means there is a secondary assist.
+                    if (redCount == 0)
+                    {
+                        assisters[redCount] = tempAssis;
+                        redCount++;
+                    }
+                    else if (assisters[redCount - 1] != tempAssis)
+                    {
+                        if (redCount == 2 && assisters[redCount - 2] != tempAssis)
+                        {
+                            assisters[redCount] = tempAssis;
+                            redCount++;
+                        }
+                    }
+                }
+
+                if (GameInfo.AfterGoalFaceoffTime != 0)
+                {
+                    if (redCount == 3)
                     {
                         theHeroOfThePlay = assisters[0];
                         Chat.SendMessage("THIRD ASSIST: " + theHeroOfThePlay);
-                        //TODO: Add a function to add an assist to the player who got 3rd assist
+                        redCount = 0;
+                        //TODO: Add a function to add an assist to the player who got 3rd assist. Currently only GET available in HockeyDedicated
+
                     }
                 }
             }
@@ -62,17 +81,43 @@ namespace HQMSecondaryAssist
                 if (blueCount == 4)
                     blueCount = 0;
 
-                assisters[blueCount] = playerTouchedPuck();
+                tempAssis = playerTouchedPuck();
 
-                blueCount++;
 
-                if (blueGoalScored())
+                if (tempAssis != "")
                 {
-                    if (blueCount == 4) //uses 4 then we know 3 red touched it last, which means there is a secondary assist.
+                    if (blueCount == 0)
+                    {
+                        assisters[blueCount] = tempAssis;
+                        blueCount++;
+                    }
+                    else if (assisters[blueCount - 1] != tempAssis)
+                    {
+                        if (blueCount == 2 && assisters[blueCount - 2] != tempAssis)
+                        {
+                            assisters[blueCount] = tempAssis;
+                            blueCount++;
+                        }
+                        else if (blueCount != 2)
+                        {
+                            assisters[blueCount] = tempAssis;
+                            blueCount++;
+                        }
+                        
+                    }
+                }
+
+                System.Console.WriteLine(blueCount);
+
+                if (GameInfo.AfterGoalFaceoffTime != 0)
+                {
+                    if (blueCount == 3) 
                     {
                         theHeroOfThePlay = assisters[0];
                         Chat.SendMessage("THIRD ASSIST: " + theHeroOfThePlay);
-                        //TODO: Add a function to add an assist to the player who got 3rd assist
+                        blueCount = 0;
+                        //TODO: Add a function to add an assist to the player who got 3rd assist. Currently only GET available in HockeyDedicated
+
                     }
                 }
             }
@@ -83,42 +128,25 @@ namespace HQMSecondaryAssist
          * whenever one of them touch the puck, add them to an array
          * if the team switches, reset array
          */
-        
-        public bool blueGoalScored()
+
+        public bool blueGoalScored(int tempScore)
         {
-            currentPuckY = Puck.Position.Y;
-            currentPuckX = Puck.Position.X;
-            int tempScore = GameInfo.BlueScore;
-
-            if(puckOnNet(currentPuckX, currentPuckY))
-            {
-                return(tempScore > GameInfo.BlueScore);
-            }
-
-            return(false);
+            return (tempScore > GameInfo.BlueScore);
         }
 
-        public bool redGoalScored()
+        public bool redGoalScored(int tempScore)
         {
-            currentPuckY = Puck.Position.Y;
-            currentPuckX = Puck.Position.X;
-            int tempScore = GameInfo.RedScore;
-
-            if(puckOnNet(currentPuckX, currentPuckY))
-            {
-                return(tempScore > GameInfo.RedScore);
-            }
-
-            return(false);
+            return(tempScore > GameInfo.RedScore);
         }
 
         string playerTouchedPuck()
         {
+
             foreach (Player p in PlayerManager.Players)
             {
                 if ((p.StickPosition - Puck.Position).Magnitude < 0.25f)
                 {
-                    return p.Name;
+                        return p.Name;
                 }
             }
 
@@ -142,14 +170,9 @@ namespace HQMSecondaryAssist
             return HQMTeam.NoTeam;
         }
 
-        /*
-         * purpose: returns if the puck is on net
-         * taken from xParabolax's Icing Mod on github. (link in readme)
-         */
-         bool puckOnNet(float x, float y)
-        {
-            return !(x < LEFT_GOALPOST || x > RIGHT_GOALPOST || y > TOP_GOALPOST);
-        }
+       
+
+         
     }
 }
 
